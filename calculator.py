@@ -3,7 +3,7 @@ import sys
 
 
 
-if len(sys.argv) != 2 or len(sys.argv) == 1:
+if len(sys.argv) != 2:
     print("Parameter Error")
     exit()
 try:
