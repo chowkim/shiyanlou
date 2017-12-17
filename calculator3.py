@@ -32,13 +32,13 @@ class UserData(object):
 		jishuh = float(config.get_config('JiShuH'))
 		user_dict = userdata.get_data()
 		for key, value in user_dict.items():
-			if value < jishul:
+			if value <= jishul:
 				ss = jishul * 0.165
-			elif jishul < value < jishuh:
+			elif jishul < value <= jishuh:
 				ss = value * 0.165
 			else:
 				ss = jishuh * 0.165
-			tax = value - value * 0.165 - 3500
+			tax = value - ss - 3500
 			if tax <= 0:
 				tax_amount = 0
 			elif tax <= 1500:
