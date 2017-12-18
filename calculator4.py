@@ -64,8 +64,8 @@ class UserData(object):
 			else:
 				tax_amount = tax * 0.45 - 13505
 			after_tax = ic - ss - tax_amount
-			newdata = values.append((i[0], str(i[1]), format(ss, '.2f'), format(tax_amount, '.2f'), format(after_tax, '.2f')))
-			queue2.put(newdata)
+			values.append((i[0], str(i[1]), format(ss, '.2f'), format(tax_amount, '.2f'), format(after_tax, '.2f')))
+		queue2.put(values)
 
 	def get_value(self):
 		return self.values
@@ -98,4 +98,4 @@ if __name__ == "__main__":
 		user = UserData(user_csv)
 		Process(target=user.get_data).start()
 		Process(target=user.calculate, args=(config,)).start()
-		Process(target=user.dumptofile, args=(wage_csv,)).start()
+		Process(target=user.dump_to_file, args=(wage_csv,)).start()
