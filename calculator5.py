@@ -64,7 +64,6 @@ class UserData(object):
 				tax_amount = tax * 0.45 - 13505
 			after_tax = ic - ss - tax_amount
 			t = datetime.now()
-			print(t)
 			t1 = datetime.strftime(t, '%Y-%m-%d %H:%M:%S')
 			values.append((i[0], str(i[1]), format(ss, '.2f'), format(tax_amount, '.2f'), format(after_tax, '.2f'), t1))
 		queue2.put(values)
