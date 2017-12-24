@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Article list</title>
+</head>
+    <body>
+        <div>
+            {% block header %}
+                <p> this is header </p>
+            {% endblock %}
+        </div>
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+        <div>
+            {% block footer %}
+            &copy; Copyright 2017 by <a href="http://www.shiyanlou.com/">shiyanlou</a>
+            {% endblock %}
+        </div>
+</html>
