@@ -1,17 +1,16 @@
 {% extends "base.html" %}
-{% from "macro.html" import Article_list %}
 
 {% block header %}
     <h1> Article List</h1>
 {% endblock %}
 
 {% block content %}
-    <ul>
+  <ul>
   {% for f in files %}
     <li>
-    <a href="{{ url_for('file', file_id=f.id) }}" target="_blank">{{ f.title }}</a>
+        <a href="{{ url_for('file', file_id=f.id) }}" target="_blank">{{ f.title }}</a>
     {% for tag in f.tags %}
-    {{ tag }}
+        <span>{{ tag }}</span>
     {% endfor %}
     </li>
   {% endfor %}
