@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "macro.html" import Article_list %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<ul class="list-group">
+  {% for f in files %}
+    <li class="list-group-item">
+    <a href="{{ url_for('file', file_id=f.id) }}" target="_blank">
+        <h2>{{ f.title }}</h2>
+    </a>
+    {% for tag in f.tags %}
+    <span class="label label-primary">{{ tag }}</span>
+    {% endfor %}
+    </li>
+  {% endfor %}
+  </ul>
+{% endblock %}
