@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% from "macro.html" import Article_list %}
+
+{% block header %}
+    <h1> Article List</h1>
+{% endblock %}
+
+{% block content %}
+  {% for f in files %}
+    <li>{{ f.title }}</li>
+  {% endfor %}
+{% endblock %}
