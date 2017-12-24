@@ -30,8 +30,6 @@ class File(db.Model):
             created_time = datetime.utcnow()
         self.created_time = created_time
 
-    def __repr__(self):
-        return '<Article_title %r>' % self.title
 
     def add_tag(self, tag_name):
         file_tag = db1.files.find_one({'file_id': self.id})
@@ -40,10 +38,10 @@ class File(db.Model):
             tags = file_tag['tags']
             if tag_name not in tags:
                 tags.append(tag_name)
-                db1.files.update_one({'file_id': self.id}, {'$set': {'tags': tags}})
+            db1.files.update_one({'file_id': self.id}, {'$set': {'tags': tags}})
         else:
             tags=[tag_name]
-            db1.files.insert_one({'file_id': self.id,'tags': tags})
+            db1.files.insert_one({'file_id': self.id, 'tags': tags})
         return  tags
 
     def remove_tag(self, tag_name):
@@ -72,8 +70,6 @@ class Category(db.Model):
     def __init__(self, name):
         self.name = name
 
-    def __repr__(self):
-        return '<Name %r>'% self.name
 
 def insert():
         java = Category('Java')
@@ -111,4 +107,4 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=1)
+    app.run()
