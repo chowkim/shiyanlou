@@ -1,30 +1,40 @@
 #!/usr/bin/env python3
 import sys
+from collections import namedtuple
+
+IncomeTaxQuickLookupItem = namedtuple(
+	'IncomeTaxQuickLookupItem',
+	['taxable_amount', 'tax_rate', 'calculating_deduction']
+)
+
+INCOME_TAX_START_POINT = 3500
+INCOME_TAX_QUICK_LOOKUP_TABLE = [
+	IncomeTaxQuickLookupItem(80000, 0.45, 13505),
+	IncomeTaxQuickLookupItem(55000, 0.35, 5505),
+	IncomeTaxQuickLookupItem(35000, 0.30, 2755),
+	IncomeTaxQuickLookupItem(9000, 0.25, 1005),
+	IncomeTaxQuickLookupItem(4500, 0.20, 555),
+	IncomeTaxQuickLookupItem(1500, 0.10, 105),
+	IncomeTaxQuickLookupItem(0, 0.03, 0)
+]
 
 
-if len(sys.argv) != 2:
-    print("Parameter Error")
-    exit()
-try:
-    income = int(sys.argv[1])
-except ValueError:
-    print("Parameter Error")
-    exit()
-finally:
-    if income - 3500 <= 0:
-        amount = 0.00
-    elif income - 3500 <= 1500:
-        amount = (income - 3500) * 0.03 - 0.00
-    elif income - 3500 <= 4500:
-        amount = (income - 3500) * 0.01 - 0.00
-    elif income - 3500 <= 9000:
-        amount = (income - 3500) * 0.02 - 0.00
-    elif income - 3500 <= 35000:
-        amount = (income - 3500) * 0.25 -1055
-    elif income - 3500 <= 55000:
-        amount = (income - 3500) * 0.3 - 2755
-    elif income - 3500 <= 80000:
-        amount = (income - 3500) * 0.35 - 5505
-    else:
-        amount = (income - 3500) * 0.45 - 13505
-    print(format(amount, ".2f"))
+def cal_taxable_amount(income):
+	taxable_income = income - INCOME_TAX_START_POINT
+	if taxable_income <= 0.00:
+		return 0.00
+	for item in INCOME_TAX_QUICK_LOOKUP_TABLE:
+		if taxable_income > item.taxable_amount:
+			tax = taxable_income * item.taxable_amount - item.calculating_deduction
+			return '{:.2f}'.format(tax)
+
+if __name__ == '__main__':
+	if len(sys.argv) != 2:
+		print("Parameter Error")
+	try:
+		income = int(sys.argv[1])
+	except ValueError:
+		print("Parameter Error")
+		exit()
+	finally:
+		print(cal_taxable_amount(income))
