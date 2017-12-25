@@ -19,8 +19,8 @@ INCOME_TAX_QUICK_LOOKUP_TABLE = [
 ]
 
 
-def cal_taxable_amount(income):
-	taxable_income = income - INCOME_TAX_START_POINT
+def cal_taxable_amount(incomes):
+	taxable_income = incomes - INCOME_TAX_START_POINT
 	if taxable_income <= 0.00:
 		return 0.00
 	for item in INCOME_TAX_QUICK_LOOKUP_TABLE:
