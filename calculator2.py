@@ -1,46 +1,51 @@
 #!/usr/bin/env python3
 import sys
+from collections import namedtuple
+
+IncomeTaxQuickLookupItem = namedtuple(
+	'IncomeTaxQuickLookupItem',
+	['taxable_amount', 'tax_rate', 'calculating_deduction']
+)
+INCOME_TAX_START_POINT = 3500
+INCOME_TAX_QUICK_LOOKUP_TABLE = [
+	IncomeTaxQuickLookupItem(80000, 0.45, 13505),
+	IncomeTaxQuickLookupItem(55000, 0.35, 5505),
+	IncomeTaxQuickLookupItem(35000, 0.30, 2755),
+	IncomeTaxQuickLookupItem(9000, 0.25, 1005),
+	IncomeTaxQuickLookupItem(4500, 0.20, 555),
+	IncomeTaxQuickLookupItem(1500, 0.10, 105),
+	IncomeTaxQuickLookupItem(0, 0.03, 0)
+]
+
+SOCIAL_SECURITY_FEES = {
+	'old-age_insurance': 0.08,
+	'medical_insurance': 0.02,
+	'unemployment_insurance': 0.005,
+	'work-related_injury_insurance': 0.00,
+	'maternity_insurance': 0.00,
+	'provident_fund': 0.06
+}
 
 
-def socialSecurity(income):
-    social_security = income * 0.165
-    return social_security
-
-
-def amount(income):
-    tax = income - income * 0.165 - 3500
-    if tax <= 0:
-        tax_amount = 0
-    elif tax <= 1500:
-        tax_amount = tax * 0.03 - 0
-    elif 1500 < tax <= 4500:
-        tax_amount = tax * 0.1 - 105
-    elif 4500 < tax <= 9000:
-        tax_amount = tax * 0.2 - 555
-    elif 9000 < tax <= 35000:
-        tax_amount = tax * 0.25 - 1005
-    elif 35000 < tax <= 55000:
-        tax_amount = tax * 0.3 - 2755
-    elif 55000 < tax <= 80000:
-        tax_amount = tax * 0.35 - 5505
-    else:
-        tax_amount = tax * 0.45 - 13505
-    return tax_amount
+def cal_taxable_amount(incomes):
+	five_risks_one_gold = incomes * sum(SOCIAL_SECURITY_FEES.values())
+	real_income = incomes - five_risks_one_gold
+	income_taxable = real_income - INCOME_TAX_START_POINT
+	if income_taxable <= 0:
+		return '0.00', '{:.2f}'.format(real_income)
+	for item in INCOME_TAX_QUICK_LOOKUP_TABLE:
+		if income_taxable > item.taxable_amount:
+			tax = income_taxable * item.tax_rate - item.calculating_deduction
+			return '{:.2f}'.format(tax), '{:.2f}'.format(real_income - tax)
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print('Parameter Error')
-        exit()
-    for avg in sys.argv[1:]:
-        try:
-            month_income = float(avg.split(':')[1])
-        except ValueError:
-            print('Parameter Error')
-            exit()
-        social_Security = social(month_income)
-        print(social_Security)
-        taxable_amount = amount(month_income)
-        print(taxable_amount)
-        money = month_income - social_Security - taxable_amount
-        print(avg.split(':')[0] + ":" + format(money, '.2f'))
+	for avg in sys.argv[1:]:
+		employee_id, income_string = avg.split(':')
+		try:
+			income = int(income_string)
+		except ValueError:
+			print('Parameter Error')
+		finally:
+			_, after_tax_salary = cal_taxable_amount(income)
+			print('{}:{}'.format(employee_id, after_tax_salary))
