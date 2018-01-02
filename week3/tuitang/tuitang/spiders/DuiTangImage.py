@@ -24,7 +24,8 @@ class DuitangimageSpider(scrapy.Spider):
 		data = json.loads(response.text)
 		# print(data)
 		item = ImageItem()
-		for i in range(0, len(data['data']['object_list'])):
-			# print(data['data']['object_list'][i]['photo']['path'])
-			item['image_url'] = data['data']['object_list'][i]['photo']['path']
-		yield item
+		image_urls = []
+		for d in data['data']['object_list']:
+			image_urls.append(d['photo']['path'])
+		item['image_urls'] = image_urls
+		return item
