@@ -9,7 +9,7 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'tuitang'
+BOT_NAME = 'DuiTangImage'
 
 SPIDER_MODULES = ['tuitang.spiders']
 NEWSPIDER_MODULE = 'tuitang.spiders'
