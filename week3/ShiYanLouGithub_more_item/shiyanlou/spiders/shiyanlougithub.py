@@ -16,7 +16,7 @@ class ShiyanlougithubSpider(scrapy.Spider):
             item = ShiyanlouItem()
             item['name'] = url.css('div.d-inline-block.mb-1 a::text').re_first('[^\s]+[\w]*')
             item['update_time'] = url.xpath('.//relative-time/@datetime').extract_first()
-            git_url = response.urljoin(url.xpath('//*[@id="user-repositories-list"]/ul/li/div/h3/a/@href').extract_first())
+            git_url = response.urljoin(url.xpath('.//a/@href').extract_first())
             request = scrapy.Request(git_url, callback=self.parse_info)
             request.meta['item'] = item
             yield request
