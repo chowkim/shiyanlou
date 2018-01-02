@@ -17,14 +17,12 @@ class DuitangimageSpider(scrapy.Spider):
 		return (start_urls.format(i) for i in range(0, 48, 24))
 	
 	def parse(self, response):
-		# self.logger.info('hello world!')
-		# self.logger.info(response)
-		# self.logger.info(response.url)
-		# yield response.url
 		data = json.loads(response.text)
 		# print(data)
 		item = ImageItem()
-		for i in range(0, len(data['data']['object_list'])):
-			# print(data['data']['object_list'][i]['photo']['path'])
-			item['image_url'] = data['data']['object_list'][i]['photo']['path']
-		yield item
+		image_urls = []
+		for d in data['data']['object_list']:
+			image_urls.append(d['photo']['path'])
+		item['image_urls'] = image_urls
+		return item
+
