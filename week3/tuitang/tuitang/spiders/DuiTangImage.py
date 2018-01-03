@@ -24,5 +24,5 @@ class DuitangimageSpider(scrapy.Spider):
 		for d in data['data']['object_list']:
 			image_urls.append(d['photo']['path'])
 		item['image_urls'] = image_urls
-		return item
+		yield item
 
