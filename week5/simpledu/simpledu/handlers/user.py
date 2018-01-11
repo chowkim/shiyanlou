@@ -6,7 +6,7 @@ user = Blueprint('user', __name__, url_prefix='/user')
 
 
 @user.route('/<username>')
-def user(username):
+def user_index(username):
     #user_item = Course.query.all()
     user_item = User.equey.filt.
     user_item = User.equey.filt.
