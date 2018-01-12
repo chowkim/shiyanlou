@@ -6,15 +6,13 @@ from wtforms import ValidationError
 
 
 class RegisterForm(FlaskForm):
-    username = StringField('Username', validators=[Required(), Length(3, 64), Regexp('^[A-Za-z0-9]*$',0,'Usename must have only letters and numbers')])
+    username = StringField('Username', validators=[Required(), Length(3, 64), Regexp('^[A-Za-z0-9]*$',0,message='Usename must have only letters and numbers')])
     email = StringField('Email', validators=[Required(), Length(3,64), Email()])
     password = PasswordField('Password', validators=[Required(), Length(6, 24)])
     repeat_password = PasswordField('Confirm password', validators=[Required(), EqualTo('password', message='Password must match!')])
     submit = SubmitField('Submit')
 
     def validate_username(self, field):
-        if field.data.isalnum():
-            raise ValidationError('Username must have only letters and numbers')
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
 
