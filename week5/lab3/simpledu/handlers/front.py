@@ -34,9 +34,6 @@ def logout():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        if not form.username.data.isalnum():
-            flash('username must only letter and numbers')
-            return redirect(url_for('.register'))
         form.create_user()
         flash('register success', 'success')
         return redirect(url_for('.login'))
